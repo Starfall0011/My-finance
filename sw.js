@@ -1,8 +1,9 @@
-const VER = "keuangan-sb-v4";
+const VER = "keuangan-sb-v6";
 const SHELL = ["./", "index.html", "config.js", "manifest.json", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(VER).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  // Simpan tiap file sendiri-sendiri: satu file yang hilang (404) tidak boleh menggagalkan seluruh instalasi offline
+  e.waitUntil(caches.open(VER).then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {
@@ -23,7 +24,7 @@ self.addEventListener("fetch", e => {
         const cp = res.clone();
         caches.open(VER).then(c => c.put("index.html", cp));
         return res;
-      }).catch(() => caches.match("index.html"))
+      }).catch(() => caches.match("index.html").then(r => r || caches.match("./")))
     );
     return;
   }

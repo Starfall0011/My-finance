@@ -262,6 +262,8 @@ main{padding-left:calc(96px + env(safe-area-inset-left,0px))}
 nav::before,nav .ac{-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5)}
 .dlg{-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
 nav{will-change:transform;transform:translate3d(-50%,0,0);backface-visibility:hidden}
+/* nav samping (iPad besar / desktop / ponsel lanskap): pulihkan pemusatan vertikal yang tertimpa aturan di atas */
+@media (min-width:1000px),(orientation:landscape) and (max-height:520px) and (min-width:560px){nav{transform:translate3d(0,-50%,0)}}
 nav .tb,nav .tm,nav .ac,.wc,.btn,.eye,.sw,.cps,.tg::after{will-change:transform}
 .wc{will-change:transform,opacity;backface-visibility:hidden}
 body::before{will-change:transform}
