@@ -3,5 +3,5 @@
 window.SB_CONFIG = {
   url: "https://jgglzqmexeshkxagmxbs.supabase.co",
   anonKey: "sb_publishable_CPV-vNgR4yb5R9TIzWyMWA_Sl7DCvyP",
-  emailDomain: "Gmail.com"   // ID "budi" dipetakan ke budi@keuangan.app
+  emailDomain: "Keuangan.app"   // ID "budi" dipetakan ke budi@keuangan.app
 };
