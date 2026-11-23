@@ -1,5 +1,5 @@
-const VER = "keuangan-sb-v13";
-const SHELL = ["./", "index.html", "config.js", "manifest.json", "icon-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "favicon-32.png"];
+const VER = "keuangan-sb-v14";
+const SHELL = ["./", "index.html", "config.js", "manifest.json", "icon-192.png", "icon-light-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "favicon-32.png"];
 
 self.addEventListener("install", e => {
   // Simpan tiap file sendiri-sendiri: satu file yang hilang (404) tidak boleh menggagalkan seluruh instalasi offline
