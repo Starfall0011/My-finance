@@ -571,13 +571,13 @@ function edRc(id){const r=S.rc.find(x=>x.id==id);if(!r)return;rcDlg("Ubah transa
 function delRc(id){ask("Hapus transaksi berulang ini? Transaksi yang sudah tercatat tidak ikut terhapus.",()=>{S.rc=S.rc.filter(x=>x.id!=id);save();draw()})}
 function csvCell(v,sep){v=String(v==null?"":v);return (v.indexOf(sep)>=0||/["\n\r]/.test(v))?'"'+v.replace(/"/g,'""')+'"':v}
 async function exportCsv(){const en=S.lang=="en",sep=en?",":";";
-const rows=[en?["Type","Date","Category","Amount","From / Asset","To","Note"]:["Jenis","Tanggal","Kategori","Jumlah","Dari / Aset","Ke","Keterangan"]];
+const head=en?["Type","Date","Category","Amount","From / Asset","To","Note"]:["Jenis","Tanggal","Kategori","Jumlah","Dari / Aset","Ke","Keterangan"],rows=[];
 const ex=en?"Expense":"Pengeluaran",ic=en?"Income":"Pemasukan";
 VP().forEach(i=>{const p=PR(i);if(p.g)rows.push([ic,p.st,"",p.g,p.ga?aname(p.ga):"","",en?"Salary":"Gaji"])});
 S.tx.slice().sort((a,b)=>a.d.localeCompare(b.d)||a.id-b.id).forEach(t=>rows.push([ex,t.d,tx(CAT()[t.c]||""),t.m,aname(t.s=="Bank"?"Rek. Bank":t.s),"",t.n||""]));
 S.inc.slice().sort((a,b)=>a.d.localeCompare(b.d)||a.id-b.id).forEach(t=>rows.push([ic,t.d,"",t.m,aname(t.k||""),"",t.n||""]));
 S.tf.slice().sort((a,b)=>a.d.localeCompare(b.d)||a.id-b.id).forEach(t=>rows.push(["Transfer",t.d,"",t.m,aname(t.f),aname(t.t),t.n||""]));
-const txt="\uFEFF"+rows.map(r=>r.map(c=>csvCell(c,sep)).join(sep)).join("\r\n"),fn="keuangan-"+today()+".csv";
+rows.sort((a,b)=>String(a[1]).localeCompare(String(b[1])));const txt=[head].concat(rows).map(r=>r.map(c=>csvCell(c,sep)).join(sep)).join("\r\n"),fn="keuangan-"+today()+".csv";
 try{if(window.claude){const d=await claude.use("downloads");if(d){await d.save({filename:fn,data:txt});return}}}catch(e){if(e&&e.code=="declined")return}
 const b=new Blob([txt],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function addTf(){const m=U(document.getElementById("tM").value);if(!m)return;const f=document.getElementById("tF").value,t=document.getElementById("tT").value;if(f==t){ask("Aset asal dan tujuan tidak boleh sama.",()=>{},"OK");return}S.tf.push({id:++S.nid,d:document.getElementById("tD").value,f,t,m,n:document.getElementById("tN").value});save();draw()}
