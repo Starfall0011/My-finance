@@ -702,7 +702,7 @@ function delTf(id){ask("Hapus transfer ini?",()=>{S.tf=S.tf.filter(t=>t.id!=id);
 function addInc(){const m=U(document.getElementById("iM").value);if(!m)return;S.inc.push({id:++S.nid,d:document.getElementById("iD").value,k:document.getElementById("iA").value,m,n:document.getElementById("iN").value});save();draw()}
 function delInc(id){ask("Hapus pemasukan ini?",()=>{S.inc=S.inc.filter(t=>t.id!=id);save();draw()})}
 function setg(i,v){PR(i).g=v;save();draw()}
-function setb(i,k,v){PR(i).b[k]=v;save()}
+function setb(i,k,v){PR(i).b[k]=v;save();budToast()}
 function nextP(){const l=per(N()-1);const d=new Date(l.en+"T00:00:00Z");d.setUTCDate(d.getUTCDate()+1);const e=new Date(d);e.setUTCMonth(e.getUTCMonth()+1);e.setUTCDate(e.getUTCDate()-1);S.fp.push({st:d.toISOString().slice(0,10),en:e.toISOString().slice(0,10),g:l.g,ga:l.ga||"",b:l.b.slice()});save();pi=N()-1;draw()}
 const R=n=>(n<0?"-":"")+"Rp "+Math.abs(Math.round(n)).toLocaleString(S.lang=="en"?"en-US":"id-ID");
 const U=v=>+String(v).replace(/\D/g,"")||0;
@@ -755,7 +755,8 @@ let BW={};try{BW=JSON.parse(localStorage.getItem(KEY+"_bw")||"{}")}catch(e){}
 function budList(j){const p=per(j),en=S.lang=="en",L=[],tot=sa(p.a),bt=sa(p.b);if(bt>0&&tot/bt*100>=80)L.push({n:en?"Total budget":"Total anggaran",r:tot/bt*100});CAT().forEach((c,i)=>{if(dc(i))return;const a=p.a[i]||0,b=p.b[i]||0;if(b>0&&a/b*100>=80)L.push({n:c,r:a/b*100})});return L}
 function budBanner(j){const L=budList(j);if(!L.length)return"";const en=S.lang=="en";return '<div class="card" style="border:1px solid #f59e0b"><b style="color:#f59e0b">\u26a0 '+(en?"Budget reminder":"Pengingat anggaran")+'</b>'+L.map(x=>'<div class="lg" style="margin-top:6px"><span style="flex:1">'+E(x.n)+'</span><span class="'+(x.r>=100?"bad":"")+'">'+Math.floor(x.r)+'%'+(x.r>=100?(en?" over":" melebihi"):"")+'</span></div>').join("")+'</div>'}
 function showBw(a){const en=S.lang=="en";let o=document.getElementById("bwt");if(!o){o=document.createElement("div");o.id="bwt";o.setAttribute("role","alert");o.style.cssText="position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:9999;background:#f59e0b;color:#1f1300;border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:440px;margin:0 auto";o.onclick=()=>o.remove();document.body.appendChild(o)}o.textContent="\u26a0 "+a.map(x=>x.n+" "+Math.floor(x.r)+"%"+(x.r>=100?(en?" (over budget)":" (melebihi anggaran)"):(en?" of budget used":" dari anggaran terpakai"))).join(" \u00b7 ");clearTimeout(o._t);o._t=setTimeout(()=>o.remove(),6000)}
-function budToast(){const p=per(4),L=budList(4),pre=p.st+"|",cur={},first=!BW._i,nw=[];L.forEach(x=>{cur[pre+x.n+"|"+(x.r>=100?100:80)]=x});Object.keys(cur).forEach(k=>{if(!BW[k]){BW[k]=1;if(!first)nw.push(cur[k])}});Object.keys(BW).forEach(k=>{if(k.startsWith(pre)&&!cur[k])delete BW[k]});BW._i=1;try{localStorage.setItem(KEY+"_bw",JSON.stringify(BW))}catch(e){}if(nw.length)showBw(nw)}
+let BWS={},BWT=0;
+function budToast(){if(document.documentElement.classList.contains("lk")){if(BWT++<120)setTimeout(budToast,1000);return}const p=per(pi),L=budList(pi),pre=p.st+"|",cur={},nw=[];L.forEach(x=>{cur[pre+x.n+"|"+(x.r>=100?100:80)]=x});Object.keys(cur).forEach(k=>{if(!BWS[k]){BWS[k]=1;nw.push(cur[k])}});Object.keys(BWS).forEach(k=>{if(k.startsWith(pre)&&!cur[k])delete BWS[k]});if(nw.length)showBw(nw)}
 function ring(){
 const p=per(pi),tot=sa(p.a),bt=sa(p.b),inc=p.g+(p.x||0),sel=inc-tot,aset=sA(ast(pi).ak);
 const so=CAT().map((c,i)=>({c,i,a:p.a[i]||0,b:p.b[i]||0})).filter(o=>!dc(o.i)).sort((x,y)=>y.a-x.a);
