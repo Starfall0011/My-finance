@@ -1,4 +1,4 @@
-const VER = "keuangan-sb-v41";
+const VER = "keuangan-sb-v42";
 const SHELL = ["./", "index.html", "config.js", "manifest.json", "icon-192.png", "icon-light-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "favicon-32.png"];
 
 self.addEventListener("install", e => {

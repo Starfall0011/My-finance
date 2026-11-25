@@ -480,7 +480,7 @@ const x=()=>{o.remove();document.removeEventListener("keydown",k)};const k=e=>{i
 const av=o.querySelector(".av"),ni=o.querySelector(".an2"),ini=()=>{av.textContent=((ni.value.trim()||ttl()).charAt(0)||"?").toUpperCase()};ni.value=ttl();ini();ni.oninput=ini;ni.onkeydown=e=>{if(e.key=="Enter")ni.blur()};
 ni.onchange=()=>{S.title=ni.value.trim();ni.value=ttl();ini();const h=document.getElementById("ttl");if(h)h.value=ttl();document.title=ttl();accIni();save()};
 if(window.sbAcc)window.sbAcc(o,x);bkList(o,x);ti(o);o.querySelector(".c").onclick=x;o.querySelector(".ex").onclick=exportBk;o.querySelector(".pdf").onclick=exportPdf;o.querySelector(".csv").onclick=exportCsv;o.querySelector(".im").onclick=()=>o.querySelector(".fi").click();o.querySelector(".fi").onchange=e=>{const f=e.target.files[0];if(f){x();importBk(f)}};o.onclick=e=>{if(e.target==o)x()};document.body.appendChild(o);setSync(lastSy)}
-function zeroNums(){bak(S,"local");S.tx=[];S.inc=[];S.tf=[];S.rc=[];S.gl=[];S.as={};const z=a=>a.map(()=>0);S.hist.forEach(p=>{p.g=0;p.b=z(p.b)});S.p4.g=0;S.b=z(S.b);S.p4.b=S.b;S.fp.forEach(p=>{p.g=0;p.b=z(p.b)});save();draw()}
+function zeroNums(){bak(S,"local");BWS={};try{localStorage.removeItem("keuangan-bws")}catch(e){}S.tx=[];S.inc=[];S.tf=[];S.rc=[];S.gl=[];S.as={};const z=a=>a.map(()=>0);S.hist.forEach(p=>{p.g=0;p.b=z(p.b)});S.p4.g=0;S.b=z(S.b);S.p4.b=S.b;S.fp.forEach(p=>{p.g=0;p.b=z(p.b)});save();draw()}
 function mig3(){if(S.z4)return;S.z4=1;zeroNums()}
 function offSync(){setSync("off");mig3()}
 const MOE=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -780,8 +780,8 @@ el.querySelector(".tt").textContent=o.title;el.querySelector(".td").textContent=
 c.appendChild(el);while(c.children.length>3)c.firstChild.remove();setTimeout(()=>el.remove(),o.ms||4000)}
 function showBw(a){const en=S.lang=="en";toast({k:"w",title:en?"Budget reminder":"Pengingat anggaran",desc:a.map(x=>x.n+" "+Math.floor(x.r)+"%"+(x.r>=100?(en?" (over budget)":" (melebihi anggaran)"):(en?" of budget used":" dari anggaran terpakai"))).join(" · "),id:"bwt",ms:6000})}
 function notif(t,d,k){toast({k:k||"s",title:t,desc:d,id:"nt"+Date.now()+Math.random(),ms:4000})}
-let BWS={},BWT=0;
-function budToast(){if(document.documentElement.classList.contains("lk")){if(BWT++<120)setTimeout(budToast,1000);return}const p=per(pi),L=budList(pi),pre=p.st+"|",cur={},nw=[];L.forEach(x=>{cur[pre+x.n+"|"+(x.r>=100?100:80)]=x});Object.keys(cur).forEach(k=>{if(!BWS[k]){BWS[k]=1;nw.push(cur[k])}});Object.keys(BWS).forEach(k=>{if(k.startsWith(pre)&&!cur[k])delete BWS[k]});if(nw.length)showBw(nw)}
+var BWS={},BWT=0;try{BWS=JSON.parse(localStorage.getItem("keuangan-bws")||"{}")||{}}catch(e){BWS={}}
+function budToast(){if(document.documentElement.classList.contains("lk")){if(BWT++<120)setTimeout(budToast,1000);return}const p=per(pi),L=budList(pi),pre=p.st+"|",cur={},nw=[];L.forEach(x=>{cur[pre+x.n+"|"+(x.r>=100?100:80)]=x});Object.keys(cur).forEach(k=>{if(!BWS[k]){BWS[k]=1;nw.push(cur[k])}});if(nw.length){try{localStorage.setItem("keuangan-bws",JSON.stringify(BWS))}catch(e){}showBw(nw)}}
 function ring(){
 const p=per(pi),tot=sa(p.a),bt=sa(p.b),inc=p.g+(p.x||0),sel=inc-tot,aset=sA(ast(pi).ak);
 const so=CAT().map((c,i)=>({c,i,a:p.a[i]||0,b:p.b[i]||0})).filter(o=>!dc(o.i)).sort((x,y)=>y.a-x.a);
