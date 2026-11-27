@@ -1,4 +1,4 @@
-const VER = "keuangan-sb-v50";
+const VER = "keuangan-sb-v52";
 const SHELL = ["./", "index.html", "config.js", "manifest.json", "icon-192.png", "icon-light-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "favicon-32.png"];
 
 self.addEventListener("install", e => {
@@ -59,7 +59,8 @@ self.addEventListener("push", e => {
   e.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(cs => {
       // Jika aplikasi sedang terlihat, pemberitahuan sudah tampil di dalam aplikasi
-      if (cs.some(c => c.visibilityState === "visible")) return;
+      const vis = cs.filter(c => c.visibilityState === "visible");
+      if (vis.length) { vis.forEach(c => c.postMessage({ type: "sg-sync" })); return; }
       return self.registration.showNotification(d.title || "Keuangan Saya", {
         body: d.body || "",
         icon: "icon-192.png",
