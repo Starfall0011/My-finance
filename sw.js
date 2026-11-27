@@ -1,4 +1,4 @@
-const VER = "keuangan-sb-v42";
+const VER = "keuangan-sb-v50";
 const SHELL = ["./", "index.html", "config.js", "manifest.json", "icon-192.png", "icon-light-192.png", "icon-512.png", "maskable-512.png", "apple-touch-icon.png", "favicon-32.png"];
 
 self.addEventListener("install", e => {
@@ -39,6 +39,33 @@ self.addEventListener("fetch", e => {
         return res;
       }).catch(() => hit);
       return hit || net;
+    })
+  );
+});
+
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  e.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(cs => {
+      for (const c of cs) { if ("focus" in c) return c.focus(); }
+      return self.clients.openWindow("./");
+    })
+  );
+});
+
+self.addEventListener("push", e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(cs => {
+      // Jika aplikasi sedang terlihat, pemberitahuan sudah tampil di dalam aplikasi
+      if (cs.some(c => c.visibilityState === "visible")) return;
+      return self.registration.showNotification(d.title || "Keuangan Saya", {
+        body: d.body || "",
+        icon: "icon-192.png",
+        badge: "icon-192.png",
+        tag: d.tag || undefined
+      });
     })
   );
 });
