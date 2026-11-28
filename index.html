@@ -378,7 +378,7 @@ nav#nav .tb:first-child{display:none!important}
 .wc .wb{left:22px;right:auto;top:18px;display:block;gap:0;font:600 14px/1.2 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;opacity:.95;text-shadow:none}
 nav#nav{grid-template-columns:repeat(5,1fr)!important;gap:6px!important}
 nav#nav .tb{padding-left:2px!important;padding-right:2px!important}
-nav#nav .tb span{font-size:10.5px!important;padding:0 1px!important}
+nav#nav .tb span{font-size:10px!important;padding:0 1px!important;white-space:nowrap}
 #help{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:var(--card);color:var(--tx);font:700 18px/1 -apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);transition:transform .25s cubic-bezier(.2,1.3,.3,1)}
 #help:active{transform:scale(.88)}
 main{padding-bottom:88px}
@@ -1273,7 +1273,7 @@ const _fa=window.fxAfter;window.fxAfter=function(a){const r=_fa.apply(this,argum
 fx2()})()</script>
 <script id="fitjs">(function(){
 const SEL=".card.st-e .v,.card.st-i .v,.card.bal .v";let q=0;
-function fit(){q=0;document.querySelectorAll(SEL).forEach(e=>{e.style.fontSize="";const w=e.clientWidth;if(!w)return;let fs=parseFloat(getComputedStyle(e).fontSize)||16;const min=Math.max(11,fs*.5);while(e.scrollWidth>w+0.5&&fs>min){fs-=1;e.style.fontSize=fs+"px"}})}
+function fit(){q=0;document.querySelectorAll("nav#nav .tb span").forEach(e=>{e.style.removeProperty("font-size");const w=e.parentNode.clientWidth-8;if(w<=0)return;let fs=parseFloat(getComputedStyle(e).fontSize)||10;while(e.getBoundingClientRect().width>w&&fs>7.5){fs-=.5;e.style.setProperty("font-size",fs+"px","important")}});document.querySelectorAll(SEL).forEach(e=>{e.style.fontSize="";const w=e.clientWidth;if(!w)return;let fs=parseFloat(getComputedStyle(e).fontSize)||16;const min=Math.max(11,fs*.5);while(e.scrollWidth>w+0.5&&fs>min){fs-=1;e.style.fontSize=fs+"px"}})}
 function sch(){if(!q)q=requestAnimationFrame(fit)}
 new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,characterData:true});
 addEventListener("resize",sch);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sch);sch()})()</script>
