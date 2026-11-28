@@ -428,15 +428,15 @@ input[type="date"]{color-scheme:light}
 #lock{background:#fff}
 </style>
 <style id="fx2css">
-.sw{grid-column:1/-1;width:100%;box-sizing:border-box;position:relative;height:54px;margin-top:10px;border-radius:16px;background:#19396a;overflow:hidden;user-select:none;-webkit-user-select:none;box-shadow:0 6px 16px rgba(25,57,106,.25);outline:none}
-.sw:focus-visible{box-shadow:0 0 0 3px rgba(25,57,106,.35)}
-.sw .sf{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.16);transition:width .3s cubic-bezier(.2,.9,.3,1)}
-.sw .st{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-left:44px;color:#fff;font:600 15px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;pointer-events:none;transition:opacity .2s}
-.sw .sk{position:absolute;left:5px;top:5px;width:44px;height:44px;border-radius:13px;background:#fff;color:#19396a;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;transition:transform .3s cubic-bezier(.2,.9,.3,1)}
-.sw.drag .sk,.sw.drag .sf{transition:none}
-.sw .sk svg{width:22px;height:22px}
-.sw.hint .sk{animation:swh .7s}
-.sw.bad{animation:lshake .35s}
+.swp{grid-column:1/-1;width:100%;box-sizing:border-box;position:relative;height:54px;margin-top:10px;border-radius:16px;background:#19396a;overflow:hidden;user-select:none;-webkit-user-select:none;box-shadow:0 6px 16px rgba(25,57,106,.25);outline:none}
+.swp:focus-visible{box-shadow:0 0 0 3px rgba(25,57,106,.35)}
+.swp .sf{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.16);transition:width .3s cubic-bezier(.2,.9,.3,1)}
+.swp .st{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-left:44px;color:#fff;font:600 15px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;pointer-events:none;transition:opacity .2s}
+.swp .sk{position:absolute;left:5px;top:5px;width:44px;height:44px;border-radius:13px;background:#fff;color:#19396a;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;transition:transform .3s cubic-bezier(.2,.9,.3,1)}
+.swp.drag .sk,.swp.drag .sf{transition:none}
+.swp .sk svg{width:22px;height:22px}
+.swp.hint .sk{animation:swh .7s}
+.swp.bad{animation:lshake .35s}
 @keyframes swh{0%,100%{transform:translateX(0)}40%{transform:translateX(30px)}}
 #okf{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:24px;background:var(--okc);clip-path:circle(0 at var(--ox) var(--oy));transition:clip-path .6s cubic-bezier(.2,.8,.2,1),opacity .25s;cursor:pointer}
 #okf.on{clip-path:circle(150% at var(--ox) var(--oy))}
@@ -455,7 +455,7 @@ input[type="date"]{color-scheme:light}
 #okf.on .os{animation-name:oks}
 @keyframes oks{to{opacity:.85;transform:none}}
 body.okon #ntc{opacity:0}
-@media (prefers-reduced-motion:reduce){#okf,#okf *,.sw *{animation-duration:.01s!important;transition-duration:.01s!important}}
+@media (prefers-reduced-motion:reduce){#okf,#okf *,.swp *{animation-duration:.01s!important;transition-duration:.01s!important}}
 </style>
 <style id="fitcss">.card.st-e .v,.card.st-i .v,.card.bal .v{white-space:nowrap;overflow:hidden}</style>
 </head>
@@ -1209,8 +1209,8 @@ new MutationObserver(show).observe(document.documentElement,{attributes:true,att
 document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"){var s=rd();if(s.d&&s.d!==day())run()}})})()</script>
 <script id="fx2js">(function(){
 function hap(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
-function swInit(){document.querySelectorAll('button.btn[onclick="add()"],button.btn[onclick="addInc()"],button.btn[onclick="addTf()"]').forEach(b=>{if(b.dataset.sw)return;b.dataset.sw="1";b.style.display="none";
-const s=document.createElement("div");s.className="sw";s.tabIndex=0;s.setAttribute("role","button");s.setAttribute("aria-label",tx("Geser untuk menyimpan"));
+function swInit(){document.querySelectorAll('button.btn[onclick="add()"],button.btn[onclick="addInc()"],button.btn[onclick="addTf()"]').forEach(b=>{if(b.dataset.swp)return;b.dataset.swp="1";b.style.display="none";
+const s=document.createElement("div");s.className="swp";s.tabIndex=0;s.setAttribute("role","button");s.setAttribute("aria-label",tx("Geser untuk menyimpan"));
 s.innerHTML='<div class="sf"></div><div class="st"></div><div class="sk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg></div>';
 s.querySelector(".st").textContent=tx("Geser untuk menyimpan");b.insertAdjacentElement("afterend",s);
 const k=s.querySelector(".sk"),f=s.querySelector(".sf"),t=s.querySelector(".st");let x0=0,dx=0,mx=0,on=false,moved=false;
